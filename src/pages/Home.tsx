@@ -1,11 +1,13 @@
-import { useNavigate } from "react-router-dom";
+import Login from "../Components/Login";
+
 
 export default function Home() {
-    const navigate = useNavigate();
-    return(
-        <>
-            <h1>Home Page</h1>
-            <button onClick={()=>navigate("/about")}>About Button</button>
-        </>
+    return (
+        <div className="home-container">
+            <div className="card">
+                <h1>Welcome to Reminder App 📝</h1>
+                <Login />
+            </div>
+        </div>
     );
 }
