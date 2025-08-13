@@ -6,13 +6,14 @@
   font-family: Arial, sans-serif;
 }
 
-/* Full-screen layout */
+
 body, html {
   height: 100%;
   background: linear-gradient(135deg, #f6f9fc, #e6ecf3);
 }
 
-/* Center everything */
+
+
 .home-container {
   display: flex;
   justify-content: center;
@@ -82,7 +83,7 @@ button:hover {
   flex-direction: column;
   align-items: center;
   gap: 1.2rem;
-  min-height: 250px; /* Increased height */
+  min-height: 300px; /* Increased height */
   justify-content: center;
 }
 
@@ -92,7 +93,7 @@ button:hover {
   align-items: center;
   justify-content: center;
   background: white;
-  border: 1px solid #dadce0;
+  border: 2px solid black;
   border-radius: 8px;
   padding: 10px 16px;
   font-size: 1rem;

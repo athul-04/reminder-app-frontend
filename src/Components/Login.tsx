@@ -1,16 +1,23 @@
 import { signInWithPopup, signOut } from "firebase/auth";
 import { auth, provider } from "../firebase";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import googleIcon from "../assets/GoogleIcon.jpg"; // <-- Add a Google logo in assets folder
+import { useNavigate } from "react-router-dom";
 
 export default function Login() {
     const [user, setUser] = useState<any>(null);
-
+    const [error, setError] = useState<any>()
+    const navigate=useNavigate();
+    useEffect(() => {
+        user?navigate("./about"):null;
+    },[user])
     const handleSignIn = async () => {
         try {
             const result = await signInWithPopup(auth, provider);
             setUser(result.user);
             console.log("User signed in:", result.user);
+            
+
         } catch (error) {
             console.error("Error signing in:", error);
         }
