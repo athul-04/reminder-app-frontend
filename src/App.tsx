@@ -5,6 +5,7 @@ import React from 'react';
 import Add from './pages/Add';
 import Home from './pages/Home';
 import Reminders from './pages/Reminders';
+import Instructions from './pages/Instructions';
 const router = createBrowserRouter([
   {
     path: "/",
@@ -20,9 +21,13 @@ const router = createBrowserRouter([
     
   },
   {
-    path: "/reminders",
+    path: "/reminders/:uid",
     element:<Reminders />,
   },
+  {
+    path: "/instructions/:uid",
+    element:<Instructions />,
+  }
   
 ]);
 

@@ -1,68 +1,93 @@
-import React, { useState } from "react";
-import "./Reminders.css";
+import * as React from 'react';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import DashboardIcon from '@mui/icons-material/Dashboard';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import { AppProvider, type Navigation } from '@toolpad/core/AppProvider';
+import { DashboardLayout } from '@toolpad/core/DashboardLayout';
+import PageContent from '../Components/PageContent'; 
 
-interface Reminder {
-  id: number;
-  text: string;
-  endTime?: string;
-  completed: boolean;
-}
+// ✅ Your navigation menu
+const NAVIGATION: Navigation = [
+  {
+    segment: 'dashboard',
+    title: 'Dashboard',
+    icon: <DashboardIcon />,
+  },
+  {
+    segment: 'reminders',
+    title: 'Reminders',
+    icon: <ShoppingCartIcon />,
+  },
+];
 
-const Reminders: React.FC = () => {
-  const [reminders, setReminders] = useState<Reminder[]>([
-    { id: 1, text: "Buy groceries",endTime: "18:00", completed: false },
-    { id: 2, text: "Call John", endTime: "18:00", completed: true }
-  ]);
+// ✅ Theme setup
+const appTheme = createTheme({
+  cssVariables: {
+    colorSchemeSelector: 'data-toolpad-color-scheme',
+  },
+  colorSchemes: { light: true, dark: true },
+});
 
-  const addReminder = () => {
-    const newReminder: Reminder = {
-      id: Date.now(),
-      text: "New Reminder",
-      completed: false
-    };
-    setReminders([...reminders, newReminder]);
+// ✅ Page content
+// function PageContent({ pathname }: { pathname: string }) {
+//   return (
+//     <Box
+//       sx={{
+//         py: 4,
+//         display: 'flex',
+//         flexDirection: 'column',
+//         alignItems: 'center',
+//         textAlign: 'center',
+//       }}
+//     >
+//       <Typography variant="h5">
+//         Welcome to {pathname === '/dashboard' ? 'Dashboard' : 'Reminders'}
+//       </Typography>
+//       <Typography sx={{ mt: 2 }}>
+//         {pathname === '/reminders'
+//           ? 'Here you can manage all your reminders.'
+//           : 'Overview of your app goes here.'}
+//       </Typography>
+//     </Box>
+//   );
+// }
+
+
+
+export default function Reminders() {
+  const [pathname, setPathname] = React.useState('/dashboard');
+
+  // Fix: navigate expects url, not segment
+  const handleNavigate = (url: string | URL) => {
+    if (typeof url === 'string') {
+      setPathname(url);
+    } else {
+      setPathname(url.toString());
+    }
   };
 
   return (
-    <div className="app-container">
-      {/* Header */}
-      <header className="header">
-        <div className="app-title">
-          <img src="/reminder-icon.png" alt="App Logo" className="app-logo" />
-          <h2>Reminder App</h2>
-        </div>
-        <div className="user-info">
-          <img
-            src="/user-icon.png"
-            alt="User"
-            className="user-logo"
-          />
-          <span className="username">John Doe</span>
-        </div>
-      </header>
-
-      {/* Reminders List */}
-      <div className="reminders-list">
-        {reminders.map((reminder) => (
-          <div
-            key={reminder.id}
-            className={`reminder-card ${reminder.completed ? "completed" : ""}`}
-          >
-            <div className="reminder-text">{reminder.text}</div>
-            {reminder.completed && <span className="checkmark">✔</span>}
-            {reminder.endTime && (
-              <div className="hover-time">Ends at: {reminder.endTime}</div>
-            )}
-          </div>
-        ))}
-      </div>
-
-      {/* Add Reminder Button */}
-      <button className="add-btn" onClick={addReminder}>
-        + Add Reminder
-      </button>
-    </div>
+    <ThemeProvider theme={appTheme}>
+      <AppProvider
+        navigation={NAVIGATION}
+        branding={{
+          logo: "📝",
+          title: 'My Reminder App',
+          homeUrl: '/dashboard',
+        }}
+        router={{
+          pathname,
+          navigate: handleNavigate,
+          searchParams: new URLSearchParams(), // ✅ required prop
+        }}
+        theme={appTheme}
+      >
+        <DashboardLayout>
+          <PageContent />
+        </DashboardLayout>
+      </AppProvider>
+    </ThemeProvider>
   );
-};
-
-export default Reminders;
+}

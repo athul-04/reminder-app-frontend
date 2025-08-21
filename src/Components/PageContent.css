@@ -1,0 +1,16 @@
+.cards-wrapper {
+  display: flex;           /* arrange side by side */
+  flex-direction: row;
+  flex-wrap: wrap;         /* wrap to next line if too many */
+  gap: 20px;               /* space between cards */
+  padding: 20px;
+  align-items: flex-start; /* keep top aligned */
+}
+
+.reminders-list {
+  display: flex;
+  flex-wrap: wrap;  /* allow wrapping on small screens */
+  gap: 10px;
+  margin-top: 10px;
+  justify-content: flex-start; /* or center if you prefer */
+}
